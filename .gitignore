@@ -1,0 +1,6 @@
+package-lock.json
+.vscode
+DS_stores
+node_modules
+.env
+TASK.md
