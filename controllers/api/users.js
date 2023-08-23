@@ -94,3 +94,5 @@ app.delete("/users/:userId/friends/:friendId", async (req, res) => {
     console.log(err);
   }
 });
+
+module.exports = app;
