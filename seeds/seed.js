@@ -22,9 +22,6 @@ const seedUsers = async () => {
 const seedThoughts = async () => {
   await Thought.deleteMany({});
   const users = await User.find();
-
-  console.log(users);
-
   const thoughts = [];
   users.forEach((user) => {
     for (let i = 0; i < 5; i++) {
