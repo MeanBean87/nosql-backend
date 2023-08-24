@@ -1,8 +1,9 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
+const { formatDate } = require("../utils/formatDate");
 
-const ReactionSchema = new mongoose.Schema({
+const ReactionSchema = new Schema({
   reactionId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     default: () => new Types.ObjectId(),
   },
   reactionBody: {
@@ -16,40 +17,43 @@ const ReactionSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
-  },
-});
-
-const ThoughtSchema = new mongoose.Schema({
-  thoughtText: {
-    type: String,
-    required: true,
-    minLength: 1,
-    maxLength: 280,
-  },
-  createdAt: {
-    type: Date,
+    get: (createdAtVal) => formatDate(createdAtVal),
     default: Date.now,
   },
-  username: {
-    type: String,
-    required: true,
-  },
-  reactions: [ReactionSchema],
-});
+},
+{
+  toJSON: { getters: true, virtuals: true },
+}
+);
 
-ThoughtSchema.virtual("formattedDate").get(function () {
-  const date = new Date(this.createdAt);
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const year = date.getFullYear();
-  return `${month}/${day}/${year}`;
-});
+const ThoughtSchema = new Schema(
+  {
+    thoughtText: {
+      type: String,
+      required: true,
+      minLength: 1,
+      maxLength: 280,
+    },
+    createdAt: {
+      type: Date,
+      get: (createdAtVal) => formatDate(createdAtVal),
+      default: Date.now,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    reactions: [ReactionSchema],
+  },
+  {
+    toJSON: { getters: true, virtuals: true },
+  }
+);
 
 ThoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });
 
-const Thought = mongoose.model("Thought", ThoughtSchema);
+const Thought = model("Thought", ThoughtSchema);
 
 module.exports = { Thought };

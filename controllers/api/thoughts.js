@@ -1,7 +1,7 @@
 const { User, Thought } = require("../../models");
 const router = require("express").Router();
 
-// GET all users
+// GET all thoughts
 router.get("/", async (req, res) => {
   try {
     const thoughtData = await Thought.find({});
@@ -32,7 +32,15 @@ router.post("/", async (req, res) => {
       { $push: { thoughts: thoughtData._id } },
       { new: true }
     );
-    res.status(200).json(thoughtData, userData);
+
+    if (!userData) {
+      res.status(404).json({ message: "No user found with this id!" });
+      return;
+    }
+
+    if (thoughtData) {
+      res.status(200).json(thoughtData);
+    }
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
