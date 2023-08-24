@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     validate: {
       validator: function (value) {
-        return /^([a-z0-9_\.-]+)@([\da-z\.-]+).([a-z\.]{2,6})$/.test(value);
+        return /^([A-Za-z0-9_\.-]+)@([\dA-Za-z\.-]+).([A-Za-z\.]{2,6})$/.test(value);
       },
       message: "Invalid Email Format.",
     },
@@ -23,4 +23,4 @@ UserSchema.virtual("friendCount").get(function () {
 
 const User = mongoose.model("User", UserSchema);
 
-module.exports = User;
+module.exports = { User };
