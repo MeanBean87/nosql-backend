@@ -93,7 +93,7 @@ MongoDB can be installed directly from [https://www.mongodb.com/docs/manual/tuto
 ```json
 {
   "thoughtText": "Here's a cool thought...",
-  "username": "lernantino",
+  "username": "Testy McTesterson",
   "userId": "5edff358a0fcb779aa7b118b"
 }
 ```
