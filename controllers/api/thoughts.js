@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
   try {
     const thoughtData = await Thought.create(req.body);
     const userData = await User.findOneAndUpdate(
-      { _id: req.body.userId },
+      { username: req.body.username },
       { $push: { thoughts: thoughtData._id } },
       { new: true }
     );
