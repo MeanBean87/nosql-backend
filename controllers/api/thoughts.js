@@ -104,7 +104,11 @@ router.delete("/:id/reactions/:reactionId", async (req, res) => {
   try {
     const thoughtData = await Thought.findOneAndUpdate(
       { _id: req.params.id },
-      { $pull: { reactions: { reactionId: Types.ObjectId(req.params.reactionId) } } },
+      {
+        $pull: {
+          reactions: { reactionId: new Types.ObjectId(req.params.reactionId) },
+        },
+      },
       { new: true }
     );
     if (!thoughtData) {
