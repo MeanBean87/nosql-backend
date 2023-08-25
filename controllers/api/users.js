@@ -116,13 +116,21 @@ router.delete("/:userId/friends/:friendId", async (req, res) => {
     const userData = await User.findOneAndUpdate(
       { _id: req.params.userId },
       { $pull: { friends: req.params.friendId } },
-      { new: true }
     );
     if (!userData) {
       res.status(404).json({ message: "User not found" });
       return;
     }
-    res.status(200).json({ message: "Friend removed!", userData });
+    for (const friend of userData.friends) {
+      if (friend._id == req.params.friendId) {
+        res.status(200).json({ message: "Friend removed!", userData });
+        return;
+      } else if(friend._id != req.params.friendId) {
+        res.status(404).json({ message: "Friend already removed." });
+        return;
+      }
+    }
+    res.status(404).json({ message: "Friend not found" });
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
