@@ -20,15 +20,11 @@ router.get("/:id", async (req, res) => {
     const userData = await User.findOne({ _id: req.params.id })
       .populate("thoughts")
       .populate("friends");
-
     if (!userData) {
       res.status(404).json({ message: "No user found with this id!" });
       return;
     }
-
-    if (userData) {
-      res.status(200).json({ message: "User found!", userData});
-    }
+    res.status(200).json({ message: "User found!", userData });
   } catch (err) {
     res.status(500).json(err);
     console.log(err);
@@ -39,9 +35,13 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const userData = await User.create(req.body);
-    if (userData) {
-      res.status(200).json({ message: "User created!", userData });
+    if (!userData) {
+      res
+        .status(404)
+        .json({ message: "User creation failed check the request body." });
+      return;
     }
+    res.status(200).json({ message: "User created!", userData });
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
@@ -56,9 +56,11 @@ router.put("/:id", async (req, res) => {
       req.body,
       { new: true }
     );
-    if (userData) {
-      res.status(200).json({ message: "User updated!", userData });
+    if (!userData) {
+      res.status(404).json({ message: "User not found" });
+      return;
     }
+    res.status(200).json({ message: "User updated!", userData });
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
@@ -69,15 +71,12 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const userData = await User.findOneAndDelete({ _id: req.params.id });
-
     if (!userData) {
       return res.status(404).json({ message: "User not found" });
     }
-
     const thoughtData = await Thought.deleteMany({
       username: userData.username,
     });
-
     res.status(200).json({ message: "User deleted", userData, thoughtData });
   } catch (err) {
     res.status(500).json({ message: "An error occurred", error: err.message });
@@ -93,9 +92,11 @@ router.post("/:userId/friends/:friendId", async (req, res) => {
       { $push: { friends: req.params.friendId } },
       { new: true }
     );
-    if (userData) {
-      res.status(200).json({ message: "Friend added!", userData });
+    if (!userData) {
+      res.status(404).json({ message: "User not found" });
+      return;
     }
+    res.status(200).json({ message: "Friend added!", userData });
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
@@ -110,9 +111,11 @@ router.delete("/:userId/friends/:friendId", async (req, res) => {
       { $pull: { friends: req.params.friendId } },
       { new: true }
     );
-    if (userData) {
-      res.status(200).json({ message: "Friend removed!", userData });
+    if (!userData) {
+      res.status(404).json({ message: "User not found" });
+      return;
     }
+    res.status(200).json({ message: "Friend removed!", userData });
   } catch (err) {
     res.status(400).json(err);
     console.log(err);

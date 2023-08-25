@@ -36,12 +36,10 @@ router.post("/", async (req, res) => {
       { $push: { thoughts: thoughtData._id } },
       { new: true }
     );
-
     if (!userData) {
       res.status(404).json({ message: "No user found with this id!" });
       return;
     }
-
     if (thoughtData) {
       res.status(200).json({ message: "Thought created!", thoughtData });
     }
@@ -70,6 +68,10 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const thoughtData = await Thought.findOneAndDelete({ _id: req.params.id });
+    if (!thoughtData) {
+      res.status(404).json({ message: "No thought found with this id!" });
+      return;
+    }
     res.status(200).json({ message: "Thought deleted!", thoughtData });
   } catch (err) {
     res.status(400).json(err);
@@ -85,6 +87,10 @@ router.post("/:id/reactions", async (req, res) => {
       { $push: { reactions: req.body } },
       { new: true }
     );
+    if (!thoughtData) {
+      res.status(404).json({ message: "No thought found with this id!" });
+      return;
+    }
     res.status(200).json({ message: "Reaction created!", thoughtData });
   } catch (err) {
     res.status(400).json(err);
@@ -100,6 +106,10 @@ router.delete("/:id/reactions/:reactionId", async (req, res) => {
       { $pull: { reactions: { reactionId: req.params.reactionId } } },
       { new: true }
     );
+    if (!thoughtData) {
+      res.status(404).json({ message: "No thought found with this id!" });
+      return;
+    }
     res.status(200).json({ message: "Reaction deleted!", thoughtData });
   } catch (err) {
     res.status(400).json(err);
