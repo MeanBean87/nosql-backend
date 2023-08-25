@@ -120,11 +120,7 @@ router.delete("/:id/reactions/:reactionId", async (req, res) => {
       if (reaction.reactionId == req.params.reactionId) {
         res.status(200).json({ message: "Reaction deleted!", thoughtData });
         return;
-      } else if(reaction.reactionId != req.params.reactionId) {
-        res.status(404).json({ message: "No reaction found or reaction already deleted." });
-        return;
       }
-    }
 
     res.status(404).json({ message: "No reaction found with this id!" });
   } catch (err) {
