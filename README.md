@@ -4,7 +4,7 @@
 
 This was a assignment where the ask was to create a low tier backend server for a social media website. This application allows for the generation of users, posts (thoughts), and reactions from other users to be stored to a NoSQL database using Mongo DB and the Mongoose ODM. This application also uses Faker.js to seed simulated user data for testing and demonstration purposes, and Express.js for routing. This application closely follows MVC paradigm but lacks views / front end.
 
-Installation instruction video and demo: [Link to video.](https://drive.google.com/file/d/1rtElGbuZ2P4q31N0mL_9zkfEUGzNIq1m/view)
+Installation instruction video and demo: [Link to video.](https://drive.google.com/file/d/1LCBLp0ONT5NeOwn6aL0K_mb4LePi4FQ3/view?usp=sharing)
 
 Node can be installed directly from [https://nodejs.org/en](https://nodejs.org/en).
 
@@ -36,7 +36,7 @@ Example of Thoughts Collection Document:
 
 For Development:
 
-Installation video: [https://drive.google.com/file/d/1rtElGbuZ2P4q31N0mL_9zkfEUGzNIq1m/view](https://drive.google.com/file/d/1rtElGbuZ2P4q31N0mL_9zkfEUGzNIq1m/view)
+Installation video: [Tutorial Video Link](https://drive.google.com/file/d/1LCBLp0ONT5NeOwn6aL0K_mb4LePi4FQ3/view?usp=sharing)
 
 1. Clone or fork the repository from "git@github.com:MeanBean87/nosql-backend.git"
 2. Navigate to the root directory of the project using CLI.
