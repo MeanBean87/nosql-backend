@@ -28,7 +28,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//POST to create a new thought (dont forget to push the created thought's _id to the associated users thoughts array field)
+//POST to create a new thought and push the created thought's _id to the associated user's thoughts array field
 router.post("/", async (req, res) => {
   try {
     const thoughtData = await Thought.create(req.body);
@@ -112,8 +112,6 @@ router.delete("/:id/reactions/:reactionId", async (req, res) => {
       { new: false }
     );
 
-    console.log(thoughtData);
-
     if (!thoughtData) {
       res.status(404).json({ message: "No thought found with this id!" });
       return;
@@ -122,6 +120,9 @@ router.delete("/:id/reactions/:reactionId", async (req, res) => {
     for (reaction of thoughtData.reactions) {
       if (reaction.reactionId == req.params.reactionId) {
         res.status(200).json({ message: "Reaction deleted!", thoughtData });
+        return;
+      } else if(reaction.reactionId != req.params.reactionId) {
+        res.status(404).json({ message: "No reaction found or reaction already deleted." });
         return;
       }
     }
