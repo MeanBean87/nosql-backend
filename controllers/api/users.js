@@ -20,8 +20,14 @@ router.get("/:id", async (req, res) => {
     const userData = await User.findOne({ _id: req.params.id })
       .populate("thoughts")
       .populate("friends");
+
+    if (!userData) {
+      res.status(404).json({ message: "No user found with this id!" });
+      return;
+    }
+
     if (userData) {
-      res.status(200).json(userData);
+      res.status(200).json({ message: "User found!", userData});
     }
   } catch (err) {
     res.status(500).json(err);
@@ -63,7 +69,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const userData = await User.findOneAndDelete({ _id: req.params.id });
-    
+
     if (!userData) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -88,7 +94,7 @@ router.post("/:userId/friends/:friendId", async (req, res) => {
       { new: true }
     );
     if (userData) {
-      res.status(200).json({ message: "Friend added!", userData});
+      res.status(200).json({ message: "Friend added!", userData });
     }
   } catch (err) {
     res.status(400).json(err);
@@ -105,7 +111,7 @@ router.delete("/:userId/friends/:friendId", async (req, res) => {
       { new: true }
     );
     if (userData) {
-      res.status(200).json({ message: "Friend removed!", userData});
+      res.status(200).json({ message: "Friend removed!", userData });
     }
   } catch (err) {
     res.status(400).json(err);

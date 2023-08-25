@@ -16,7 +16,11 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const thoughtData = await Thought.findOne({ _id: req.params.id });
-    res.status(200).json(thoughtData);
+    if (!thoughtData) {
+      res.status(404).json({ message: "No thought found with this id!" });
+      return;
+    }
+    res.status(200).json({ message: "Thought found!", thoughtData });
   } catch (err) {
     res.status(500).json(err);
     console.log(err);
