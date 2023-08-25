@@ -1,5 +1,4 @@
 const { User, Thought } = require("../../models");
-const { Types } = require("mongoose");
 const router = require("express").Router();
 
 // GET all thoughts
