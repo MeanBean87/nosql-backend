@@ -106,16 +106,27 @@ router.delete("/:id/reactions/:reactionId", async (req, res) => {
       { _id: req.params.id },
       {
         $pull: {
-          reactions: { reactionId: new Types.ObjectId(req.params.reactionId) },
+          reactions: { reactionId: req.params.reactionId },
         },
       },
-      { new: true }
+      { new: false }
     );
+
+    console.log(thoughtData);
+
     if (!thoughtData) {
       res.status(404).json({ message: "No thought found with this id!" });
       return;
     }
-    res.status(200).json({ message: "Reaction deleted!", thoughtData });
+
+    for (reaction of thoughtData.reactions) {
+      if (reaction.reactionId == req.params.reactionId) {
+        res.status(200).json({ message: "Reaction deleted!", thoughtData });
+        return;
+      }
+    }
+
+    res.status(404).json({ message: "No reaction found with this id!" });
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
