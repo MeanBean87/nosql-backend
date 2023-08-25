@@ -109,6 +109,6 @@ db.once("open", async () => {
   await seedThoughts();
   await seedFriends();
   await seedReactions();
-  console.log("Seeding complete!");
+  console.log("Successfuly created and seeded socialDb with associated collections!");
   process.exit(0);
 });

@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
     }
 
     if (thoughtData) {
-      res.status(200).json(thoughtData);
+      res.status(200).json({ message: "Thought created!", thoughtData });
     }
   } catch (err) {
     res.status(400).json(err);
@@ -55,7 +55,7 @@ router.put("/:id", async (req, res) => {
       req.body,
       { new: true }
     );
-    res.status(200).json(thoughtData);
+    res.status(200).json({ message: "Thought updated!", thoughtData });
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
@@ -66,7 +66,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const thoughtData = await Thought.findOneAndDelete({ _id: req.params.id });
-    res.status(200).json(thoughtData);
+    res.status(200).json({ message: "Thought deleted!", thoughtData });
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
@@ -81,7 +81,7 @@ router.post("/:id/reactions", async (req, res) => {
       { $push: { reactions: req.body } },
       { new: true }
     );
-    res.status(200).json(thoughtData);
+    res.status(200).json({ message: "Reaction created!", thoughtData });
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
@@ -96,7 +96,7 @@ router.delete("/:id/reactions/:reactionId", async (req, res) => {
       { $pull: { reactions: { reactionId: req.params.reactionId } } },
       { new: true }
     );
-    res.status(200).json(thoughtData);
+    res.status(200).json({ message: "Reaction deleted!", thoughtData });
   } catch (err) {
     res.status(400).json(err);
     console.log(err);

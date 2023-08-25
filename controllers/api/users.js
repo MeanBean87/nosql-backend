@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
   try {
     const userData = await User.create(req.body);
     if (userData) {
-      res.status(200).json(userData);
+      res.status(200).json({ message: "User created!", userData });
     }
   } catch (err) {
     res.status(400).json(err);
@@ -51,7 +51,7 @@ router.put("/:id", async (req, res) => {
       { new: true }
     );
     if (userData) {
-      res.status(200).json(userData);
+      res.status(200).json({ message: "User updated!", userData });
     }
   } catch (err) {
     res.status(400).json(err);
@@ -88,7 +88,7 @@ router.post("/:userId/friends/:friendId", async (req, res) => {
       { new: true }
     );
     if (userData) {
-      res.status(200).json(userData);
+      res.status(200).json({ message: "Friend added!", userData});
     }
   } catch (err) {
     res.status(400).json(err);
@@ -105,7 +105,7 @@ router.delete("/:userId/friends/:friendId", async (req, res) => {
       { new: true }
     );
     if (userData) {
-      res.status(200).json(userData);
+      res.status(200).json({ message: "Friend removed!", userData});
     }
   } catch (err) {
     res.status(400).json(err);
