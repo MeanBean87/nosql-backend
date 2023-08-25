@@ -1,4 +1,5 @@
 const { User, Thought } = require("../../models");
+const { Types } = require("mongoose");
 const router = require("express").Router();
 
 // GET all thoughts
@@ -103,7 +104,7 @@ router.delete("/:id/reactions/:reactionId", async (req, res) => {
   try {
     const thoughtData = await Thought.findOneAndUpdate(
       { _id: req.params.id },
-      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { $pull: { reactions: { reactionId: Types.ObjectId(req.params.reactionId) } } },
       { new: true }
     );
     if (!thoughtData) {
